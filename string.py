@@ -11,7 +11,7 @@ print '==> E ' + a+aa
 
 bb = 388
 print '==> F', b + bb
-print '==> G ' + a + aa + 'I will give you $', b+bb, 'if you could... \nHehe...Just kidding\n'
+print '==> G ' + a + aa + 'I will give you $%d if you could... \nHehe...Just kidding\n'% (b+bb)
 
 print '==> H ' + a[3:]
 print '==> I ' + a[0:4]
@@ -35,15 +35,23 @@ print '==> W ' + str(aa.endswith(''))
 print '==> X ' + str(aa.endswith(' '))
 
 delimiter = ' '
-print '==> Y',  aa.split(delimiter), '\n\n'
+print '==> Y',  aa.split(delimiter)
 
 l = aa.split(delimiter)
 print '==> Z',l,'\n'
-print '==> 1 ' + ' '.join(l), '\n'
-print '==> 2 ' + ''.join(l), '\n'
-print '==> 3',l,'\n\n'
+print '==> 1 ' + ' '.join(l) 
+print '==> 2 ' + ''.join(l)
+print '==> 3',l
 
 print aa
+
+ustr = u'A unicode \u018e string \xf1'
+print ustr
+s = ustr.encode('utf-8')
+print s
+print s==ustr
+t = unicode(s,'utf-8')
+print t==ustr
 
 delimiter = ''
 print aa.split(delimiter)
