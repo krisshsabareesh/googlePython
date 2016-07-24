@@ -1,43 +1,87 @@
+#!/usr/bin/python -tt
+# Copyright 2010 Google Inc.
+# Licensed under the Apache License, Version 2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 
-list = ['aa', 'BB', 'zz', 'CC']
-print 'Direct Sorted', sorted(list) #case sensitive
-print list
+# Google's Python Class
+# http://code.google.com/edu/languages/google-python-class/
 
-print 'reverse sorted :', sorted(list, reverse=True)
+# Additional basic list exercises
 
-strs = ['ccc', 'aabc', 'aaaa', 'd', 'bb']
-print sorted(strs,key=len)
+# D. Given a list of numbers, return a list where
+# all adjacent == elements have been reduced to a single element,
+# so [1, 2, 2, 3] returns [1, 2, 3]. You may create a new list or
+# modify the passed in list.
+def remove_adjacent(nums):
+  # +++your code here+++
+  if len(nums) < 2:
+    return nums
+  nonredundantlist = [nums[0]]
+  for num in range(1,len(nums)):
+    if nums[num] != nums[num-1]:
+      nonredundantlist.append(nums[num])
+  return nonredundantlist
 
 
-def myFn(s):
-	return s[-1]
+# E. Given two lists sorted in increasing order, create and return a merged
+# list of all the elements in sorted order. You may modify the passed in lists.
+# Ideally, the solution should work in "linear" time, making a single
+# pass of both lists.
+def linear_merge(list1, list2):
+  # +++your code here+++
+  linearlist = []
+  l1i = 0
+  l2i = 0
+  for i in range(len(list1) + len(list2)):
+    if list1[l1i] < list2[l2i]:
+      linearlist.append(list1[l1i])
+      l1i += 1
+      if l1i >= len(list1):
+        return linearlist + list2[l2i:]
+        break
+    else:
+      linearlist.append(list2[l2i])
+      l2i += 1
+      if l2i >= len(list2):
+        return linearlist + list1[l1i:]
+        break
+  return linearlist
 
-strs = ['xc', 'zb', 'yd', 'wa']
-print sorted(strs, key=myFn)
-btrs = strs.sort()
-print btrs
-print strs
+# Note: the solution above is kind of cute, but unforunately list.pop(0)
+# is not constant time with the standard python list implementation, so
+# the above is not strictly linear time.
+# An alternate approach uses pop(-1) to remove the endmost elements
+# from each list, building a solution list which is backwards.
+# Then use reversed() to put the result back in the correct order. That
+# solution works in linear time, but is more ugly.
 
-tuple = (1, 2, 'hi')
-print len(tuple)  ## 3
-print tuple[2]    ## hi
-####  tuple[2] = 'bye'  ### NO, tuples cannot be changed
 
-tuple = ('Hi',)   #To create a size 1, tuple the lone element must be followed by comma
+# Simple provided test() function used in main() to print
+# what each function returns vs. what it's supposed to return.
+def test(got, expected):
+  if got == expected:
+    prefix = ' OK '
+  else:
+    prefix = '  X '
+  print '%s got: %s expected: %s' % (prefix, repr(got), repr(expected))
 
-(x, y, z) = ( 33, 24, 'Hike')
-print x, y, z
 
-nums = [1, 2, 3, 4]
-squares = [n * n for n in nums]
-print squares 
+# Calls the above functions with interesting inputs.
+def main():
+  print 'remove_adjacent'
+  test(remove_adjacent([1, 2, 2, 3]), [1, 2, 3])
+  test(remove_adjacent([2, 2, 3, 3, 3]), [2, 3])
+  test(remove_adjacent([]), [])
 
-strs = ['hello', 'and', 'good bye']
-shouting = [s.upper() + '!!!' for s in strs]
-print shouting
+  print
+  print 'linear_merge'
+  test(linear_merge(['aa', 'xx', 'zz'], ['bb', 'cc']),
+       ['aa', 'bb', 'cc', 'xx', 'zz'])
+  test(linear_merge(['aa', 'xx'], ['bb', 'cc', 'zz']),
+       ['aa', 'bb', 'cc', 'xx', 'zz'])
+  test(linear_merge(['aa', 'aa'], ['aa', 'bb', 'bb']),
+       ['aa', 'aa', 'aa', 'bb', 'bb'])
 
-fruits = ['Apple', 'Banana', 'Cherry', 'Lemon', 'Goa']
-#efruits = [for s in fruits if 'e' in s]  This is invalid
-efruits = [s.upper() for s in fruits if 'e' in s]
 
-print efruits
+if __name__ == '__main__':
+  main()
