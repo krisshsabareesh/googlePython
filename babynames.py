@@ -56,6 +56,7 @@ def extract_names(filename):
       x += 1
       #print re.findall(r'(</td><td>)(\w+)+', line)
   count_dict = count(matchlist)
+  f.close()
   return count_dict
 
 def count(matchlist):
@@ -91,9 +92,15 @@ def main():
   for i in range(len(args)):
     if summary == True:
       sfile = open(args[i]+'.summary',"w")
+      year_file = open(args[i],"r")
+      year_string = year_file.read()
+      year = re.search('(Popularity in )(\d\d\d\d)', year_string)
+      sfile.write(year.group(2) + '\n')
+      year_file.close()
       sorted_dict = extract_names(args[i])
       for item in sorted_dict.items():
         sfile.write(item[0] +' '+ str(item[1]) + '\n')
+      sfile.close()
 
     else:
       sorted_dict = extract_names(args[i])
