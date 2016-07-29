@@ -104,6 +104,12 @@ def main():
 
     else:
       sorted_dict = extract_names(args[i])
+      year_file = open(args[i],"r")
+      year_string = year_file.read()
+      year = re.search('(Popularity in )(\d\d\d\d)', year_string)
+      print year.group(2) + '\n'
+      year_file.close()
+
       for item in sorted_dict.items():
         print item[0], ' ', item[1]
 
