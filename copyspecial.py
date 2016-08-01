@@ -36,8 +36,9 @@ def copytodir(tdir, dirs):
         print 'Not a special file ---- Skipping'
   
 def makezip(zdir, dirs):
-  for dir in dirs:
-    shutil.make_archive(zdir,'zip',dir)
+  copytodir(zdir[:-4],dirs)
+  shutil.make_archive(zdir[:-4],'zip',zdir[:-4])
+  shutil.rmtree(zdir[:-4])
 
 def main():
   # This basic command line argument parsing code is provided.
